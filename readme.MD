@@ -1,6 +1,6 @@
-# Recognizing Places Impressions From Images
-## Developed by Luis Medina
-## Supervised by Prof. Daniel Gatica-Perez and Dr. Darshan Santani.
+## Recognizing Places Impressions From Images
+### Developed by Luis Medina
+### Supervised by Prof. Daniel Gatica-Perez and Dr. Darshan Santani.
 
 *Description*: This repository contains the code and notebooks of the project "Recognizing Places Impressions From Images". Developed at the IDIAP Laboratory at the École Polytechnique Fédérale de Lausanne.
 
