@@ -1,8 +1,8 @@
-folder: scripts
+## Scripts
 
-Description of the folder: contains the different scripts used for the experiments and data processing. Please check that the directories match before running them. The distribution is the following:
-	-bash_scripts: contains bash scripts that call the python scripts to make the execution easier:
-		-data_augmentation.sh: calls the data_augmentation.py python script to generate data augmentation of the images.
+**Description**: Contains the different scripts used for the experiments and data processing. Please check that the directories match before running them. The distribution is the following:
+* **bash_scripts**: contains bash scripts that call the python scripts to make the execution easier:
+* * **data_augmentation.sh**: calls the data_augmentation.py python script to generate data augmentation of the images.
 		-run_caffe.sh: run the caffe command to do fine-tuning.
 		-run_convert_images_lmdb.sh: convert a set of images to a lmdb database as well as resize them to 256x256 pixels.
 		-run_split_image_data.sh: split the images into training and validation data as well as between different folders that are going to be used to generate data augmentation.
