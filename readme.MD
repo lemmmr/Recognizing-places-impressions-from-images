@@ -1,12 +1,13 @@
-folder: project_folder
+# Recognizing Places Impressions From Images
+## Developed by Luis Medina
+## Supervised by Prof. Daniel Gatica-Perez and Dr. Darshan Santani.
 
-Description: This is the root folder and contains the following folders/files (please note that some of the folders may have a description of their content):
-	-cluster_data: contains the information that was stored in the IDIAP cluster, with the logs of the fine-tuning experiments per CNN and per label (see the fine-tuning folder), some examples of data augmentation as well as the fine-tuning jobs and the adapted scripts.
-	-datasets: contains the different datasets used in this project.
-	-latex_files: contains the latex files for the report.
-	-misc: folder with miscellaneous information.
-	-notebooks: Jupyter notebooks with data analysis and pre-processing.
-	-r_results: contains the RDS files with results of most of the experiments.
-	-report_LEMR_final_version.pdf: Final version of the project report.
-	-scripts: contains the R, python and bash scripts.
+*Description*: This repository contains the code and notebooks of the project "Recognizing Places Impressions From Images". Developed at the IDIAP Laboratory at the École Polytechnique Fédérale de Lausanne.
+
+Folders:
+* *cluster_data*: contains the information that was stored in the IDIAP cluster, with the logs of the fine-tuning experiments per CNN and per label (see the fine-tuning folder), some examples of data augmentation as well as the fine-tuning jobs and the adapted scripts.
+* *latex_files*: contains the latex files for the report.
+* *misc*: folder with miscellaneous information.
+* notebooks*: Jupyter notebooks with data analysis and pre-processing.
+* scripts*: contains the R, python and bash scripts.
 
