@@ -1,0 +1,165 @@
+#ICC analysis ICC(1,k)
+cat("\014")
+library(psych)
+library(irr)
+setwd("/Users/lemr/Documents/EPFL/Tercer_Semestre/COM-405_Optional_project_in_communication_systems/")
+
+####################
+#CECYTE annotations#
+####################
+print("CECYTE annotations")
+#ICC(1,k)###########
+
+labels_ua <- c("Dangerous","Dirty","Pretty","Interesting","Polluted","Pleasant")
+
+#Initializing DataFrame
+df.icc <- list()
+df.icc.summary <- data.frame(stringsAsFactors=FALSE)
+df.icc.summary <- rbind(df.icc.summary, c(0,0,0))
+
+for (label in labels_ua){
+  print(paste0("Processing label: ", label))
+  
+  #Reading each csv file
+  df.temp <- read.csv(paste0("datasets/cecyte_annotations/cecyte_gto_hits_",label,".csv"))
+  
+  #Getting the ICC coefficient ICC(1,k)
+  df.icc[[label]] <- ICC(df.temp[,paste0("rater_",1:5,sep="")],missing=FALSE)
+  df.icc.summary <- rbind(df.icc.summary,c(label,round(df.icc[[label]]$results$ICC[4],2),df.icc[[label]]$results$p[4]))
+}
+df.icc.summary <- df.icc.summary[-1,]
+colnames(df.icc.summary) <- c("label", "ICC(1,k)", "p-value")
+df.icc.summary
+df.cecyte.icc <- df.icc.summary
+saveRDS(df.cecyte.icc, "r_results/agreement/cecyte_icc_6_labels.rds")
+
+#Fleiss Kappa coefficient######
+
+labels_descriptor <- paste0("s",1:10,sep="")
+
+#Initializing DataFrame
+df.kappa <- list()
+df.kappa.summary <- data.frame(stringsAsFactors=FALSE)
+df.kappa.summary <- rbind(df.kappa.summary, c(0,0,0))
+
+for(label in labels_descriptor){
+  print(paste0("Processing descriptor: ", label))
+  
+  #Reading each csv file
+  df.temp <- read.csv(paste0("datasets/cecyte_annotations/cecyte_gto_hits_",label,".csv"))
+  
+  #Getting the Fleiss kappa coefficient k
+  df.kappa[[label]]<- kappam.fleiss(df.temp[,paste0("rater_",1:5,sep="")])
+  df.kappa.summary <- rbind(df.kappa.summary,c(label,round(df.kappa[[label]]$value,2),df.kappa[[label]]$p.value))
+}
+df.kappa.summary <- df.kappa.summary[-1,]
+colnames(df.kappa.summary) <- c("Descriptor","Fleiss_kappa","p-value")
+df.kappa.summary
+df.cecyte.kappa <- df.kappa.summary
+saveRDS(df.cecyte.kappa,"r_results/agreement/cecyte_kappa_10_descriptors.rds")
+
+#Krippendorff's alpha
+labels_descriptor <- paste0("s",1:10,sep="")
+
+#Initializing DataFrame
+df.kripp <- list()
+df.kripp.summary <- data.frame(stringsAsFactors=FALSE)
+df.kripp.summary <- rbind(df.kripp.summary, c(0,0))
+
+for(label in labels_descriptor){
+  print(paste0("Processing descriptor: ", label))
+  
+  #Reading each csv file
+  df.temp <- read.csv(paste0("datasets/cecyte_annotations/cecyte_gto_hits_",label,".csv"))
+  
+  #Getting the Krippendorff's alpha
+  df.kripp[[label]]<- kripp.alpha(t(as.matrix(df.temp[,paste0("rater_",1:5,sep="")])),method = "nominal")
+  df.kripp.summary <- rbind(df.kripp.summary,c(label,round(df.kripp[[label]]$value,2)))
+}
+df.kripp.summary <- df.kripp.summary[-1,]
+colnames(df.kripp.summary) <- c("Descriptor","krippendorffs_alpha")
+df.kripp.summary
+df.cecyte.kripp <- df.kripp.summary
+saveRDS(df.cecyte.kripp,"r_results/agreement/cecyte_krippalpha_10_descriptors.rds")
+
+#################################
+#MTurk: 10 annotations 12 labels#
+#################################
+print("MTurk 10 annotations - 12 labels")
+#ICC(1,k)###########
+
+labels_ua <- c("Dangerous","Dirty","Pretty","Preserved","Accessible","Interesting","Picturesque","Wealthy","Quiet","Polluted","Pleasant","Happy")    
+
+#Initializing DataFrame
+df.icc <- list()
+df.icc.summary <- data.frame(stringsAsFactors=FALSE)
+df.icc.summary <- rbind(df.icc.summary, c(0,0,0))
+
+for (label in labels_ua){
+  print(paste0("Processing label: ", label))
+  
+  #Reading each csv file
+  df.temp <- read.csv(paste0("datasets/MTurk_annotations/mturk_gto_hits_",label,".csv"))
+  
+  #Getting the ICC coefficient ICC(1,k)
+  df.icc[[label]] <- ICC(df.temp[,paste0("rater_",1:10,sep="")],missing=FALSE)
+  df.icc.summary <- rbind(df.icc.summary,c(label,round(df.icc[[label]]$results$ICC[4],2),df.icc[[label]]$results$p[4]))
+}
+df.icc.summary <- df.icc.summary[-1,]
+colnames(df.icc.summary) <- c("label", "ICC(1,k)", "p-value")
+df.icc.summary
+df.mturk.12_10.icc <- df.icc.summary
+saveRDS(df.mturk.12_10.icc,"r_results/agreement/mturk_icc_12_labels.rds")
+#################################
+#MTurk: 5 (out of 10) [random] annotations 6 labels#
+#################################
+print("MTurk - 5 annotations 6 labels")
+#ICC(1,k)###########
+
+labels_ua <- c("Dangerous","Dirty","Pretty","Interesting","Polluted","Pleasant")    
+
+#Initializing DataFrame
+df.icc <- list()
+df.icc.summary <- data.frame(stringsAsFactors=FALSE)
+df.icc.summary <- rbind(df.icc.summary, c(0,0,0))
+
+for (label in labels_ua){
+  #Initializaing DataFrame temp
+  df.icc.label <-list()
+  df.icc.label.summary <- data.frame(stringsAsFactors=FALSE)
+  df.icc.label.summary <- rbind(df.icc.label.summary, c(0,0,0))
+  print(paste0("Processing label: ", label))
+  
+  #Reading each of the 10 csv files per label
+  for (i in 1:10){
+    ###################################
+    #Reading files generated by python#
+    ###################################
+    #df.temp <- read.csv(paste0("datasets/MTurk_annotations/",label,"/mturk_gto_hits_",label,"_",i,".csv"))
+    #Getting the ICC coefficient ICC(1,k)
+    #df.icc.label[[i]] <- ICC(df.temp[,!colnames(df.temp) %in% c("annotation")],missing=FALSE)
+    ####################################################
+    #Generating random numbers by using sample function#
+    ####################################################
+    #Reading file
+    df.temp <- read.csv(paste0("datasets/MTurk_annotations/mturk_gto_hits_",label,".csv"))
+    #Generating random raters
+    raters_index <-sample(1:10, 5, replace=F)
+    raters <- c(paste0("rater_",raters_index[1]),paste0("rater_",raters_index[2]),paste0("rater_",raters_index[3]),paste0("rater_",raters_index[4]),paste0("rater_",raters_index[5]))
+    #Getting the ICC coefficient ICC(1,k)
+    df.icc.label[[i]] <- ICC(df.temp[,raters],missing=FALSE)
+    
+    #Adding the computed data to a big dataframe
+    df.icc.label.summary <- rbind(df.icc.label.summary,c(i,round(df.icc.label[[i]]$results$ICC[4],2),df.icc.label[[i]]$results$p[4]))
+    #Verifying p-value
+    if (df.icc.label[[i]]$results$p[4] > 0.01){print(paste0("p-value higher than 0.01 -> ", df.icc.label[[i]]$results$p[4] > 0.01))}
+  }
+  df.icc.label.summary <- df.icc.label.summary[-1,]
+  colnames(df.icc.label.summary) <- c("sample_number", "icc-1-k", "p-value")
+  df.icc.summary <- rbind(df.icc.summary,c(label,mean(as.numeric(df.icc.label.summary$`icc-1-k`)),round(sd(as.numeric(df.icc.label.summary$`icc-1-k`)),2)))
+}
+df.icc.summary <- df.icc.summary[-1,]
+colnames(df.icc.summary) <- c("label", "avg_ICC(1,k)", "std_ICC(1,k)")
+df.icc.summary
+df.mturk.6_5.icc <- df.icc.summary
+saveRDS(df.mturk.6_5.icc,"r_results/agreement/mturk_icc_6_labels_5_annotations_mean.rds")
