@@ -1,0 +1,55 @@
+# WARNING: You MUST use bash to prevent errors
+
+## Sun's Grid Engine parameters
+# ... (see 'man qsub' for complete documentation)
+# ... job name
+#$ -N run_caffe_scv
+# ... make sure to use proper shell
+#$ -S /bin/bash
+# ... e-mail address to send notifications
+#$ -M luis.medina@idiap.ch
+# ... how frequent to send notifications via e-mail
+# ... "n" stands for "none", you can set it to "e" for "at the end of the job"
+#$ -m e
+# ... use the following directory for output (log and error files)
+#$ -o /idiap/home/lmedina/caffe_log/log
+#$ -e /idiap/home/lmedina/caffe_log/err
+#$ -cwd
+
+## Environment
+# WARNING: your ~/.bashrc will NOT be loaded by SGE
+# ... SETSHELL
+
+######################################################################
+# Submit via
+# > SETSHELL grid
+# > qsub -l q_gpu minimal.job
+######################################################################
+
+. /idiap/resource/software/initfiles/shrc
+SETSHELL grid
+
+# Your CUDA install (group installation here)
+. /idiap/group/socialcomputing/gcan/cuda8-activate
+
+export PATH=/idiap/home/lmedina/usr_packages/bin/:$PATH
+export LD_LIBRARY_PATH=/idiap/home/lmedina/usr_packages/lib/:$LD_LIBRARY_PATH
+export PYTHONPATH=/idiap/home/lmedina/caffe/python/:$PYTHONPATH
+
+# Your caffe virtualenv
+source /idiap/home/lmedina/caffe-py27/bin/activate
+
+######################################################################
+
+echo "Start to run on $(hostname) at $(date +'%F %T')"
+echo "CUDA_VISIBLE_DEVICES ${CUDA_VISIBLE_DEVICES}"
+nvidia-smi
+
+# Caffe command 
+# architectures: googlenet alexnet vgg16
+echo 
+# usage: /idiap/home/lmedina/project/run_caffe.sh -n nn_architecture -l label
+/idiap/home/lmedina/project/run_caffe.sh -n googlenet -l wealthy
+echo "End at $(date +'%F %T')"
+
+######################################################################

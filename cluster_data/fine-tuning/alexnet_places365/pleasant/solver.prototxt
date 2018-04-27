@@ -1,0 +1,14 @@
+net: "/idiap/temp/lmedina/fine-tuning/alexnet_places365/pleasant/train_val_an_scv_pleasant.prototxt"
+test_iter: 6 # (180) images; batch:32 - 5.625 iter/epoch - 1 epoch
+test_interval: 155 #almost every epoch of train data
+display: 50
+base_lr: 0.0001
+lr_policy: "step"
+stepsize: 2000
+gamma: 0.1
+max_iter: 12000 # (4000+1020) images; batch:32 - 157 iter/epoch - ~76.4 epochs
+momentum: 0.9
+weight_decay: 0.0002
+snapshot: 6000
+snapshot_prefix: "/idiap/temp/lmedina/fine-tuning/alexnet_places365/pleasant/alexnet_places365_scv_pleasant"
+solver_mode: GPU
